@@ -1,0 +1,28 @@
+-- [[ KING TALZZ NO CURE | FPS BOOSTER ]] --
+settings().Rendering.QualityLevel = 1
+local Lighting = game:GetService("Lighting")
+Lighting.GlobalShadows = false
+Lighting.FogEnd = 9e9
+Lighting.Brightness = 0
+
+for _, v in pairs(game:GetDescendants()) do
+    if v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("MeshPart") then
+        v.Material = Enum.Material.Plastic
+        v.Reflectance = 0
+    elseif v:IsA("Decal") or v:IsA("Texture") then
+        v:Destroy()
+    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+        v.Enabled = false
+    elseif v:IsA("PostEffect") then
+        v.Enabled = false
+    end
+end
+
+task.spawn(function()
+    while task.wait(1) do
+        setfpscap(999)
+    end
+end)
+
+print("KING TALZZ NO CURE ACTIVATED!")
+
