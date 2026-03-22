@@ -1,19 +1,22 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
    Name = "GOJO V1 | FOCUS PS99 🟣",
-   LoadingTitle = "Gojo Farming Mode...",
+   LoadingTitle = "Gojo Domain Expansion...",
    LoadingSubtitle = "by Tuan Nando",
+   ConfigurationSaving = {Enabled = true, FolderName = "GojoV1"},
    Theme = "Purple"
 })
 
 local FarmTab = Window:CreateTab("Auto Farm", 4483362458)
+local EggTab = Window:CreateTab("Auto Hatch", 4483362458)
+local MiscTab = Window:CreateTab("Misc", 4483362458)
 
 _G.AutoFarm = false
 _G.AutoCollect = false
 _G.AutoHatch = false
 
 FarmTab:CreateToggle({
-   Name = "ULTRA FAST FARM (NO CURE)",
+   Name = "Ultra Fast Farm (30 Targets)",
    CurrentValue = false,
    Callback = function(V)
       _G.AutoFarm = V
@@ -21,20 +24,20 @@ FarmTab:CreateToggle({
          while _G.AutoFarm do
             pcall(function()
                local b = game:GetService("Workspace").__THINGS.Breakables:GetChildren()
-               for i = 1, 30 do -- 30 TARGET BIAR MELEDAK!
+               for i = 1, 30 do
                   if b[i] and b[i]:FindFirstChild("Hitbox") then
                      game:GetService("ReplicatedStorage").Network.Breakables_PlayerAttackBreakable:FireServer(b[i].Name)
                   end
                end
             end)
-            task.wait(0.01) -- SPEED GILA!
+            task.wait(0.01)
          end
       end) end
    end,
 })
 
 FarmTab:CreateToggle({
-   Name = "AUTO COLLECT ORBS",
+   Name = "Auto Collect Orbs (Instant)",
    CurrentValue = false,
    Callback = function(V)
       _G.AutoCollect = V
@@ -47,18 +50,29 @@ FarmTab:CreateToggle({
    end,
 })
 
-FarmTab:CreateToggle({
-   Name = "HUGE HUNTER (AUTO HATCH)",
+EggTab:CreateToggle({
+   Name = "Huge Hunter (Auto Hatch)",
    CurrentValue = false,
    Callback = function(V)
       _G.AutoHatch = V
       if V then task.spawn(function()
          while _G.AutoHatch do
             game:GetService("ReplicatedStorage").Network.Eggs_RequestPurchase:InvokeServer("Spawn", 1)
-            task.wait(0.001) -- UNLIMITED VOID HATCH!
+            task.wait(0.005)
          end
       end) end
    end,
 })
 
-Rayfield:Notify({Title = "FOCUS MODE ON", Content = "Bantai Semua, Raja!", Duration = 5})
+MiscTab:CreateButton({
+    Name = "FPS Booster (No Lag)",
+    Callback = function()
+        settings().Rendering.QualityLevel = 1
+        for _, v in pairs(game:GetDescendants()) do
+            if v:IsA("Part") then v.Material = Enum.Material.Plastic end
+        end
+        Rayfield:Notify({Title = "FPS BOOSTED", Content = "Lancar Jaya!", Duration = 5})
+    end
+})
+
+Rayfield:Notify({Title = "GOJO V1 LOADED", Content = "Grinding Started", Duration = 5})
