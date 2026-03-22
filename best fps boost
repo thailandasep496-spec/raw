@@ -1,28 +1,91 @@
--- [[ KING TALZZ NO CURE | FPS BOOSTER ]] --
-settings().Rendering.QualityLevel = 1
-local Lighting = game:GetService("Lighting")
-Lighting.GlobalShadows = false
-Lighting.FogEnd = 9e9
-Lighting.Brightness = 0
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local Window = Rayfield:CreateWindow({
+   Name = "MEAT SCRIPT V7 | NO CURE 🟣",
+   LoadingTitle = "Gojo Infinite Void...",
+   LoadingSubtitle = "by Tuan Nando",
+   Theme = "Purple"
+})
 
-for _, v in pairs(game:GetDescendants()) do
-    if v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("MeshPart") then
-        v.Material = Enum.Material.Plastic
-        v.Reflectance = 0
-    elseif v:IsA("Decal") or v:IsA("Texture") then
-        v:Destroy()
-    elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
-        v.Enabled = false
-    elseif v:IsA("PostEffect") then
-        v.Enabled = false
+local FarmTab = Window:CreateTab("Auto Farm", 4483362458)
+local TradeTab = Window:CreateTab("Trade & Scam", 4483362458)
+local PlayerTab = Window:CreateTab("God Power", 4483362458)
+
+_G.AutoFarm = false
+_G.AutoHatch = false
+_G.AutoCollect = false
+
+FarmTab:CreateToggle({
+   Name = "Auto Farm (Fast Attack)",
+   CurrentValue = false,
+   Callback = function(V)
+      _G.AutoFarm = V
+      if V then task.spawn(function()
+         while _G.AutoFarm do
+            pcall(function()
+               local b = game:GetService("Workspace").__THINGS.Breakables:GetChildren()
+               for i = 1, 20 do
+                  if b[i] and b[i]:FindFirstChild("Hitbox") then
+                     game:GetService("ReplicatedStorage").Network.Breakables_PlayerAttackBreakable:FireServer(b[i].Name)
+                  end
+               end
+            end)
+            task.wait(0.05)
+         end
+      end) end
+   end,
+})
+
+FarmTab:CreateToggle({
+   Name = "Auto Collect Orbs",
+   CurrentValue = false,
+   Callback = function(V)
+      _G.AutoCollect = V
+      if V then task.spawn(function()
+         while _G.AutoCollect do
+            pcall(function()
+               game:GetService("ReplicatedStorage").Network.Orbs_Collect:FireServer({})
+            end)
+            task.wait(0.5)
+         end
+      end) end
+   end,
+})
+
+FarmTab:CreateToggle({
+   Name = "Auto Hatch (Huge Hunter)",
+   CurrentValue = false,
+   Callback = function(V)
+      _G.AutoHatch = V
+      if V then task.spawn(function()
+         while _G.AutoHatch do
+            game:GetService("ReplicatedStorage").Network.Eggs_RequestPurchase:InvokeServer("Spawn", 1)
+            task.wait(0.01)
+         end
+      end) end
+   end,
+})
+
+TradeTab:CreateButton({
+   Name = "Fake Accept",
+   Callback = function()
+      Rayfield:Notify({Title = "VOID ACTIVATED", Content = "Visual Accepted Sent!", Duration = 5})
+   end,
+})
+
+PlayerTab:CreateSlider({
+   Name = "WalkSpeed",
+   Min = 16, Max = 500, Default = 50,
+   Callback = function(V) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = V end,
+})
+
+PlayerTab:CreateButton({
+    Name = "FPS Booster", 
+    Callback = function()
+        settings().Rendering.QualityLevel = 1
+        for _, v in pairs(game:GetDescendants()) do
+            if v:IsA("Part") then v.Material = Enum.Material.Plastic end
+        end
     end
-end
+})
 
-task.spawn(function()
-    while task.wait(1) do
-        setfpscap(999)
-    end
-end)
-
-print("KING TALZZ NO CURE ACTIVATED!")
-
+Rayfield:Notify({Title = "MEAT V7 LOADED", Content = "Gacor, Tuan Nando!", Duration = 5})
