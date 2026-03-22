@@ -1,21 +1,19 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 local Window = Rayfield:CreateWindow({
-   Name = "MEAT SCRIPT V7 | NO CURE 🟣",
-   LoadingTitle = "Gojo Infinite Void...",
+   Name = "GOJO V1 | FOCUS PS99 🟣",
+   LoadingTitle = "Gojo Farming Mode...",
    LoadingSubtitle = "by Tuan Nando",
    Theme = "Purple"
 })
 
 local FarmTab = Window:CreateTab("Auto Farm", 4483362458)
-local TradeTab = Window:CreateTab("Trade & Scam", 4483362458)
-local PlayerTab = Window:CreateTab("God Power", 4483362458)
 
 _G.AutoFarm = false
-_G.AutoHatch = false
 _G.AutoCollect = false
+_G.AutoHatch = false
 
 FarmTab:CreateToggle({
-   Name = "Auto Farm (Fast Attack)",
+   Name = "ULTRA FAST FARM (NO CURE)",
    CurrentValue = false,
    Callback = function(V)
       _G.AutoFarm = V
@@ -23,69 +21,44 @@ FarmTab:CreateToggle({
          while _G.AutoFarm do
             pcall(function()
                local b = game:GetService("Workspace").__THINGS.Breakables:GetChildren()
-               for i = 1, 20 do
+               for i = 1, 30 do -- 30 TARGET BIAR MELEDAK!
                   if b[i] and b[i]:FindFirstChild("Hitbox") then
                      game:GetService("ReplicatedStorage").Network.Breakables_PlayerAttackBreakable:FireServer(b[i].Name)
                   end
                end
             end)
-            task.wait(0.05)
+            task.wait(0.01) -- SPEED GILA!
          end
       end) end
    end,
 })
 
 FarmTab:CreateToggle({
-   Name = "Auto Collect Orbs",
+   Name = "AUTO COLLECT ORBS",
    CurrentValue = false,
    Callback = function(V)
       _G.AutoCollect = V
       if V then task.spawn(function()
          while _G.AutoCollect do
-            pcall(function()
-               game:GetService("ReplicatedStorage").Network.Orbs_Collect:FireServer({})
-            end)
-            task.wait(0.5)
+            game:GetService("ReplicatedStorage").Network.Orbs_Collect:FireServer({})
+            task.wait(0.1)
          end
       end) end
    end,
 })
 
 FarmTab:CreateToggle({
-   Name = "Auto Hatch (Huge Hunter)",
+   Name = "HUGE HUNTER (AUTO HATCH)",
    CurrentValue = false,
    Callback = function(V)
       _G.AutoHatch = V
       if V then task.spawn(function()
          while _G.AutoHatch do
             game:GetService("ReplicatedStorage").Network.Eggs_RequestPurchase:InvokeServer("Spawn", 1)
-            task.wait(0.01)
+            task.wait(0.001) -- UNLIMITED VOID HATCH!
          end
       end) end
    end,
 })
 
-TradeTab:CreateButton({
-   Name = "Fake Accept",
-   Callback = function()
-      Rayfield:Notify({Title = "VOID ACTIVATED", Content = "Visual Accepted Sent!", Duration = 5})
-   end,
-})
-
-PlayerTab:CreateSlider({
-   Name = "WalkSpeed",
-   Min = 16, Max = 500, Default = 50,
-   Callback = function(V) game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = V end,
-})
-
-PlayerTab:CreateButton({
-    Name = "FPS Booster", 
-    Callback = function()
-        settings().Rendering.QualityLevel = 1
-        for _, v in pairs(game:GetDescendants()) do
-            if v:IsA("Part") then v.Material = Enum.Material.Plastic end
-        end
-    end
-})
-
-Rayfield:Notify({Title = "MEAT V7 LOADED", Content = "Gacor, Tuan Nando!", Duration = 5})
+Rayfield:Notify({Title = "FOCUS MODE ON", Content = "Bantai Semua, Raja!", Duration = 5})
